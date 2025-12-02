@@ -1,4 +1,8 @@
 @echo off
+echo Cleaning up previous build...
+taskkill /F /IM menu_app.exe >nul 2>&1
+del build\menu_app.exe >nul 2>&1
+
 echo Configuring and building project...
 cmake -B build -S . -G "MinGW Makefiles"
 if %errorlevel% neq 0 (

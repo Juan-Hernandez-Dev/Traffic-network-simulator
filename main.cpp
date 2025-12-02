@@ -3,8 +3,19 @@
 #include <string>
 #include <functional>
 #include <memory>
+#include <fstream>
+#include <iomanip>
 #include <conio.h>
 #include "utils/colors.h"
+#include "utils/fileUtils.h"
+#include "utils/inputUtils.h"
+#include "utils/tableUtils.h"
+#include "Graph.h"
+#include "HashTable.h"
+
+// Global instances
+Graph cityNetwork;
+HashTable vehicleRegistry;
 
 class Menu;
 
@@ -108,44 +119,351 @@ public:
 
 // ===== ROAD NETWORK MANAGEMENT =====
 void loadNetwork() {
-    std::cout << "Loading network from file...\n";
-    // TODO: Implement file loading logic
+    std::cout << "=== LOAD NETWORK ===\n\n";
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Loading from: " << fullPath << "\n\n";
+    cityNetwork.loadFromFile(fullPath);
 }
 
 void saveNetwork() {
-    std::cout << "Saving network to file...\n";
-    // TODO: Implement file saving logic
+    std::cout << "=== SAVE NETWORK ===\n\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: Network is empty! Nothing to save.\n";
+        return;
+    }
+
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Saving to: " << fullPath << "\n\n";
+    cityNetwork.saveToFile(fullPath);
 }
 
 void addNode() {
-    std::cout << "Adding node to network...\n";
-    // TODO: Implement add node logic
+    std::cout << "=== ADD NODE ===\n\n";
+    std::string name = getValidString("Enter node name: ");
+    cityNetwork.addNodeAuto(name);
 }
 
 void addEdge() {
-    std::cout << "Adding edge to network...\n";
-    // TODO: Implement add edge logic
+    std::cout << "=== ADD EDGE ===\n\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: No nodes in network! Add nodes first.\n";
+        return;
+    }
+
+    // Create interactive table for source node selection
+    InteractivePaginatedTable sourceTable("SELECT SOURCE NODE", "Name", "Connections");
+
+    const Node* nodes = cityNetwork.getNodes();
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            // Count connections
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            sourceTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int sourceId = sourceTable.run();
+    if (sourceId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Create interactive table for destination node selection
+    InteractivePaginatedTable destTable("SELECT DESTINATION NODE", "Name", "Connections");
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            destTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int destId = destTable.run();
+    if (destId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Check for self-loop
+    if (sourceId == destId) {
+        system("cls");
+        std::cout << "=== ADD EDGE ===\n\n";
+        std::cout << "Error: Cannot create an edge from a node to itself!\n";
+        std::cout << "Self-loops are not allowed in road networks.\n";
+        return;
+    }
+
+    // Direction selector
+    int directionChoice = 0; // 0=bidirectional, 1=directional, 2=counter-directional
+    std::string sourceName = cityNetwork.getNodeName(sourceId);
+    std::string destName = cityNetwork.getNodeName(destId);
+
+    while (true) {
+        system("cls");
+        std::cout << "=== CONFIRM EDGE DIRECTION ===\n\n";
+
+        std::string sourceRole, destRole;
+
+        // Update roles based on direction
+        if (directionChoice == 0) { // Bidirectional
+            sourceRole = "Bidirectional";
+            destRole = "Bidirectional";
+        } else if (directionChoice == 1) { // Directional
+            sourceRole = "Source";
+            destRole = "Destination";
+        } else { // Counter-directional
+            sourceRole = "Destination";
+            destRole = "Source";
+        }
+
+        // Display table with roles
+        std::cout << CYAN;
+        std::cout << std::setw(6) << "ID" << " | "
+                  << std::setw(20) << "Name" << " | "
+                  << std::setw(15) << "Role" << "\n";
+        std::cout << std::string(50, '-') << "\n";
+        std::cout << std::setw(6) << sourceId << " | "
+                  << std::setw(20) << sourceName << " | "
+                  << std::setw(15) << sourceRole << "\n";
+        std::cout << std::setw(6) << destId << " | "
+                  << std::setw(20) << destName << " | "
+                  << std::setw(15) << destRole << "\n";
+        std::cout << RESET << "\n";
+
+        std::cout << "Is this configuration correct?\n";
+        std::cout << "[A/D or Left/Right] Change direction | [Enter] Confirm | [ESC] Cancel\n";
+
+        int ch = _getch();
+
+        if (ch == 224 || ch == 0) {
+            ch = _getch();
+            if (ch == 75 || ch == 'K') { // Left arrow
+                directionChoice = (directionChoice - 1 + 3) % 3;
+            } else if (ch == 77 || ch == 'M') { // Right arrow
+                directionChoice = (directionChoice + 1) % 3;
+            }
+        } else if (ch == 'a' || ch == 'A') {
+            directionChoice = (directionChoice - 1 + 3) % 3;
+        } else if (ch == 'd' || ch == 'D') {
+            directionChoice = (directionChoice + 1) % 3;
+        } else if (ch == 13) { // Enter
+            break;
+        } else if (ch == 27) { // ESC
+            std::cout << "Operation cancelled.\n";
+            return;
+        }
+    }
+
+    // Keep the table visible and ask for weight
+    system("cls");
+    std::cout << "=== ADD EDGE ===\n\n";
+
+    std::string sourceRole, destRole;
+    if (directionChoice == 0) {
+        sourceRole = "Bidirectional";
+        destRole = "Bidirectional";
+    } else if (directionChoice == 1) {
+        sourceRole = "Source";
+        destRole = "Destination";
+    } else {
+        sourceRole = "Destination";
+        destRole = "Source";
+    }
+
+    // Display final table with weight column
+    std::cout << CYAN;
+    std::cout << std::setw(6) << "ID" << " | "
+              << std::setw(20) << "Name" << " | "
+              << std::setw(15) << "Role" << " | "
+              << std::setw(10) << "Weight" << "\n";
+    std::cout << std::string(60, '-') << "\n";
+    std::cout << std::setw(6) << sourceId << " | "
+              << std::setw(20) << sourceName << " | "
+              << std::setw(15) << sourceRole << " | "
+              << std::setw(10) << "?" << "\n";
+    std::cout << std::setw(6) << destId << " | "
+              << std::setw(20) << destName << " | "
+              << std::setw(15) << destRole << " | "
+              << std::setw(10) << "?" << "\n";
+    std::cout << RESET << "\n";
+
+    double weight = getValidDouble("Enter weight (distance/time): ");
+
+    // Add edges based on direction choice (no extra screen, addEdge prints confirmation)
+    if (directionChoice == 0) { // Bidirectional
+        cityNetwork.addEdge(sourceId, destId, weight);
+        cityNetwork.addEdge(destId, sourceId, weight);
+    } else if (directionChoice == 1) { // Directional
+        cityNetwork.addEdge(sourceId, destId, weight);
+    } else if (directionChoice == 2) { // Counter-directional
+        cityNetwork.addEdge(destId, sourceId, weight);
+    }
 }
 
 void removeNode() {
-    std::cout << "Removing node from network...\n";
-    // TODO: Implement remove node logic
+    std::cout << "=== REMOVE NODE ===\n\n";
+    int id = getValidInt("Enter node ID to remove: ");
+    cityNetwork.removeNode(id);
 }
 
 void removeEdge() {
-    std::cout << "Removing edge from network...\n";
-    // TODO: Implement remove edge logic
+    std::cout << "=== REMOVE EDGE ===\n\n";
+
+    if (cityNetwork.getNodeCount() == 0) {
+        std::cout << "Error: No nodes in network!\n";
+        return;
+    }
+
+    // Create interactive table for source node selection
+    InteractivePaginatedTable sourceTable("SELECT SOURCE NODE", "Name", "Connections");
+
+    const Node* nodes = cityNetwork.getNodes();
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            sourceTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int sourceId = sourceTable.run();
+    if (sourceId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    // Create interactive table for destination node selection
+    InteractivePaginatedTable destTable("SELECT DESTINATION NODE", "Name", "Connections");
+
+    for (int i = 0; i < cityNetwork.getMaxNodes(); i++) {
+        if (nodes[i].active) {
+            int connCount = 0;
+            Edge* edge = nodes[i].adjacencyList;
+            while (edge != nullptr) {
+                connCount++;
+                edge = edge->next;
+            }
+            destTable.addRow(nodes[i].id, nodes[i].name, std::to_string(connCount) + " edges");
+        }
+    }
+
+    int destId = destTable.run();
+    if (destId == -1) {
+        std::cout << "Operation cancelled.\n";
+        return;
+    }
+
+    system("cls");
+    std::cout << "=== REMOVE EDGE ===\n\n";
+
+    // Display selected nodes in cyan table
+    std::cout << CYAN;
+    std::cout << std::setw(6) << "ID" << " | "
+              << std::setw(20) << "Name" << " | "
+              << std::setw(15) << "Role" << "\n";
+    std::cout << std::string(50, '-') << "\n";
+    std::cout << std::setw(6) << sourceId << " | "
+              << std::setw(20) << cityNetwork.getNodeName(sourceId) << " | "
+              << std::setw(15) << "Source" << "\n";
+    std::cout << std::setw(6) << destId << " | "
+              << std::setw(20) << cityNetwork.getNodeName(destId) << " | "
+              << std::setw(15) << "Destination" << "\n";
+    std::cout << RESET << "\n";
+
+    std::cout << "Confirm removal? (y/n): ";
+    char confirm;
+    std::cin >> confirm;
+    std::cin.ignore();
+
+    if (confirm == 'y' || confirm == 'Y') {
+        cityNetwork.removeEdge(sourceId, destId);
+    } else {
+        std::cout << "Operation cancelled.\n";
+    }
+}
+
+void generateSeedFile() {
+    std::cout << "=== GENERATE SEED FILE ===\n\n";
+    std::string filename = getValidString("Enter seed filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getSeedPath(sanitized);
+    std::cout << "Generating seed file: " << fullPath << "\n\n";
+
+    std::ofstream file(fullPath);
+    if (!file.is_open()) {
+        std::cout << "Error: Could not create seed file!\n";
+        return;
+    }
+
+    file << "# SAMPLE NETWORK - Aguascalientes City\n";
+    file << "# NODES\n";
+    file << "N;0;UAA\n";
+    file << "N;1;Plaza_Patria\n";
+    file << "N;2;Centro_Historico\n";
+    file << "N;3;Glorieta_Norte\n";
+    file << "N;4;Estadio_Victoria\n";
+    file << "N;5;Expo_Plaza\n";
+    file << "\n# EDGES (source;destination;weight)\n";
+    file << "E;0;1;3.5\n";
+    file << "E;1;2;2.8\n";
+    file << "E;0;2;6.2\n";
+    file << "E;2;3;4.1\n";
+    file << "E;1;3;5.0\n";
+    file << "E;3;4;3.2\n";
+    file << "E;4;0;7.5\n";
+    file << "E;1;5;2.1\n";
+    file << "E;5;3;3.9\n";
+
+    file.close();
+    std::cout << "Seed file generated successfully!\n";
+    std::cout << "You can now load it using 'Load Network' option.\n";
 }
 
 // ===== NETWORK VISUALIZATION =====
 void showAdjacencyList() {
-    std::cout << "Displaying adjacency list...\n";
-    // TODO: Implement adjacency list display
+    cityNetwork.showAdjacencyList();
 }
 
 void showAdjacencyMatrix() {
-    std::cout << "Displaying adjacency matrix...\n";
-    // TODO: Implement adjacency matrix display
+    cityNetwork.showAdjacencyMatrix();
 }
 
 // ===== QUERIES AND ALGORITHMS =====
@@ -165,24 +483,82 @@ void depthFirstSearch() {
 }
 
 // ===== VEHICLE MANAGEMENT =====
+void loadVehicles() {
+    std::cout << "=== LOAD VEHICLES ===\n\n";
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Loading from: " << fullPath << "\n\n";
+    vehicleRegistry.loadFromFile(fullPath);
+}
+
+void saveVehicles() {
+    std::cout << "=== SAVE VEHICLES ===\n\n";
+
+    if (vehicleRegistry.getVehicleCount() == 0) {
+        std::cout << "Error: No vehicles to save!\n";
+        return;
+    }
+
+    std::string filename = getValidString("Enter filename (without extension): ");
+
+    std::string sanitized = sanitizeFilename(filename);
+    if (sanitized.empty()) {
+        std::cout << "Error: Invalid filename!\n";
+        return;
+    }
+
+    std::string fullPath = getDataPath(sanitized);
+    std::cout << "Saving to: " << fullPath << "\n\n";
+    vehicleRegistry.saveToFile(fullPath);
+}
+
 void addVehicle() {
-    std::cout << "Adding vehicle...\n";
-    // TODO: Implement add vehicle logic
+    std::cout << "=== ADD VEHICLE ===\n\n";
+
+    std::string plate = getValidString("Enter vehicle plate: ");
+    std::string type = getValidString("Enter vehicle type (Sedan/Truck/SUV/etc): ");
+    int origin = getValidInt("Enter origin node ID: ");
+    int dest = getValidInt("Enter destination node ID: ");
+
+    vehicleRegistry.addVehicleAuto(plate, type, origin, dest);
 }
 
 void searchVehicle() {
-    std::cout << "Searching for vehicle...\n";
-    // TODO: Implement search vehicle logic
+    std::cout << "=== SEARCH VEHICLE ===\n\n";
+    int id = getValidInt("Enter vehicle ID to search: ");
+
+    Vehicle* vehicle = vehicleRegistry.searchVehicle(id);
+    if (vehicle != nullptr) {
+        std::cout << "\nVehicle found!\n";
+        std::cout << "ID: " << vehicle->id << "\n";
+        std::cout << "Plate: " << vehicle->plate << "\n";
+        std::cout << "Type: " << vehicle->type << "\n";
+        std::cout << "Origin Node: " << vehicle->originNodeId << "\n";
+        std::cout << "Destination Node: " << vehicle->destinationNodeId << "\n";
+    } else {
+        std::cout << "Vehicle not found!\n";
+    }
 }
 
 void removeVehicle() {
-    std::cout << "Removing vehicle...\n";
-    // TODO: Implement remove vehicle logic
+    std::cout << "=== REMOVE VEHICLE ===\n\n";
+    int id = getValidInt("Enter vehicle ID to remove: ");
+    vehicleRegistry.removeVehicle(id);
+}
+
+void showAllVehicles() {
+    vehicleRegistry.showAllVehicles();
 }
 
 void showHashInfo() {
-    std::cout << "Displaying hash table information...\n";
-    // TODO: Implement hash info display
+    vehicleRegistry.showHashInfo();
 }
 
 // ===== EXIT =====
@@ -200,6 +576,7 @@ int main() {
     roadNetworkMenu->addItem(4, MenuItem("Add Edge", addEdge));
     roadNetworkMenu->addItem(5, MenuItem("Remove Node", removeNode));
     roadNetworkMenu->addItem(6, MenuItem("Remove Edge", removeEdge));
+    roadNetworkMenu->addItem(7, MenuItem("Generate Seed File", generateSeedFile));
 
     // 2. Network Visualization submenu
     auto visualizationMenu = std::make_shared<Menu>("Network Visualization");
@@ -214,10 +591,13 @@ int main() {
 
     // 4. Vehicle Management submenu
     auto vehicleMenu = std::make_shared<Menu>("Vehicle Management");
-    vehicleMenu->addItem(1, MenuItem("Add Vehicle", addVehicle));
-    vehicleMenu->addItem(2, MenuItem("Search Vehicle", searchVehicle));
-    vehicleMenu->addItem(3, MenuItem("Remove Vehicle", removeVehicle));
-    vehicleMenu->addItem(4, MenuItem("Show Hash Info", showHashInfo));
+    vehicleMenu->addItem(1, MenuItem("Load Vehicles", loadVehicles));
+    vehicleMenu->addItem(2, MenuItem("Save Vehicles", saveVehicles));
+    vehicleMenu->addItem(3, MenuItem("Add Vehicle", addVehicle));
+    vehicleMenu->addItem(4, MenuItem("Search Vehicle", searchVehicle));
+    vehicleMenu->addItem(5, MenuItem("Remove Vehicle", removeVehicle));
+    vehicleMenu->addItem(6, MenuItem("Show All Vehicles", showAllVehicles));
+    vehicleMenu->addItem(7, MenuItem("Show Hash Info", showHashInfo));
 
     // Main menu
     Menu mainMenu("Main menu");
