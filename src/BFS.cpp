@@ -86,14 +86,7 @@ TraversalResult bfs(const Graph& graph, int startId, bool verbose) {
         }
 
         // Find current node index
-        int currentIndex = -1;
-        for (int i = 0; i < MAX_NODES; i++) {
-            if (nodes[i].active && nodes[i].id == currentId) {
-                currentIndex = i;
-                break;
-            }
-        }
-
+        int currentIndex = graph.findNodeIndex(currentId);
         if (currentIndex == -1) continue;
 
         // Add neighbors to queue
@@ -102,13 +95,7 @@ TraversalResult bfs(const Graph& graph, int startId, bool verbose) {
             int neighborId = edge->destination;
 
             // Find neighbor index
-            int neighborIndex = -1;
-            for (int i = 0; i < MAX_NODES; i++) {
-                if (nodes[i].active && nodes[i].id == neighborId) {
-                    neighborIndex = i;
-                    break;
-                }
-            }
+            int neighborIndex = graph.findNodeIndex(neighborId);
 
             if (neighborIndex != -1 && !visited[neighborIndex]) {
                 visited[neighborIndex] = true;

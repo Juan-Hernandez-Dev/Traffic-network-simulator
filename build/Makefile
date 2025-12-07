@@ -224,53 +224,293 @@ src/Dijkstra.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Dijkstra.cpp.s
 .PHONY : src/Dijkstra.cpp.s
 
-src/Graph.obj: src/Graph.cpp.obj
-.PHONY : src/Graph.obj
+src/controllers/NetworkController.obj: src/controllers/NetworkController.cpp.obj
+.PHONY : src/controllers/NetworkController.obj
 
 # target to build an object file
-src/Graph.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.obj
-.PHONY : src/Graph.cpp.obj
+src/controllers/NetworkController.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/NetworkController.cpp.obj
+.PHONY : src/controllers/NetworkController.cpp.obj
 
-src/Graph.i: src/Graph.cpp.i
-.PHONY : src/Graph.i
+src/controllers/NetworkController.i: src/controllers/NetworkController.cpp.i
+.PHONY : src/controllers/NetworkController.i
 
 # target to preprocess a source file
-src/Graph.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.i
-.PHONY : src/Graph.cpp.i
+src/controllers/NetworkController.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/NetworkController.cpp.i
+.PHONY : src/controllers/NetworkController.cpp.i
 
-src/Graph.s: src/Graph.cpp.s
-.PHONY : src/Graph.s
+src/controllers/NetworkController.s: src/controllers/NetworkController.cpp.s
+.PHONY : src/controllers/NetworkController.s
 
 # target to generate assembly for a file
-src/Graph.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/Graph.cpp.s
-.PHONY : src/Graph.cpp.s
+src/controllers/NetworkController.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/NetworkController.cpp.s
+.PHONY : src/controllers/NetworkController.cpp.s
 
-src/HashTable.obj: src/HashTable.cpp.obj
-.PHONY : src/HashTable.obj
+src/controllers/VehicleController.obj: src/controllers/VehicleController.cpp.obj
+.PHONY : src/controllers/VehicleController.obj
 
 # target to build an object file
-src/HashTable.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.obj
-.PHONY : src/HashTable.cpp.obj
+src/controllers/VehicleController.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/VehicleController.cpp.obj
+.PHONY : src/controllers/VehicleController.cpp.obj
 
-src/HashTable.i: src/HashTable.cpp.i
-.PHONY : src/HashTable.i
+src/controllers/VehicleController.i: src/controllers/VehicleController.cpp.i
+.PHONY : src/controllers/VehicleController.i
 
 # target to preprocess a source file
-src/HashTable.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.i
-.PHONY : src/HashTable.cpp.i
+src/controllers/VehicleController.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/VehicleController.cpp.i
+.PHONY : src/controllers/VehicleController.cpp.i
 
-src/HashTable.s: src/HashTable.cpp.s
-.PHONY : src/HashTable.s
+src/controllers/VehicleController.s: src/controllers/VehicleController.cpp.s
+.PHONY : src/controllers/VehicleController.s
 
 # target to generate assembly for a file
-src/HashTable.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/HashTable.cpp.s
-.PHONY : src/HashTable.cpp.s
+src/controllers/VehicleController.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/controllers/VehicleController.cpp.s
+.PHONY : src/controllers/VehicleController.cpp.s
+
+src/models/Graph.obj: src/models/Graph.cpp.obj
+.PHONY : src/models/Graph.obj
+
+# target to build an object file
+src/models/Graph.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/Graph.cpp.obj
+.PHONY : src/models/Graph.cpp.obj
+
+src/models/Graph.i: src/models/Graph.cpp.i
+.PHONY : src/models/Graph.i
+
+# target to preprocess a source file
+src/models/Graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/Graph.cpp.i
+.PHONY : src/models/Graph.cpp.i
+
+src/models/Graph.s: src/models/Graph.cpp.s
+.PHONY : src/models/Graph.s
+
+# target to generate assembly for a file
+src/models/Graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/Graph.cpp.s
+.PHONY : src/models/Graph.cpp.s
+
+src/models/HashTable.obj: src/models/HashTable.cpp.obj
+.PHONY : src/models/HashTable.obj
+
+# target to build an object file
+src/models/HashTable.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/HashTable.cpp.obj
+.PHONY : src/models/HashTable.cpp.obj
+
+src/models/HashTable.i: src/models/HashTable.cpp.i
+.PHONY : src/models/HashTable.i
+
+# target to preprocess a source file
+src/models/HashTable.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/HashTable.cpp.i
+.PHONY : src/models/HashTable.cpp.i
+
+src/models/HashTable.s: src/models/HashTable.cpp.s
+.PHONY : src/models/HashTable.s
+
+# target to generate assembly for a file
+src/models/HashTable.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/models/HashTable.cpp.s
+.PHONY : src/models/HashTable.cpp.s
+
+src/services/FileService.obj: src/services/FileService.cpp.obj
+.PHONY : src/services/FileService.obj
+
+# target to build an object file
+src/services/FileService.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/FileService.cpp.obj
+.PHONY : src/services/FileService.cpp.obj
+
+src/services/FileService.i: src/services/FileService.cpp.i
+.PHONY : src/services/FileService.i
+
+# target to preprocess a source file
+src/services/FileService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/FileService.cpp.i
+.PHONY : src/services/FileService.cpp.i
+
+src/services/FileService.s: src/services/FileService.cpp.s
+.PHONY : src/services/FileService.s
+
+# target to generate assembly for a file
+src/services/FileService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/FileService.cpp.s
+.PHONY : src/services/FileService.cpp.s
+
+src/services/MessageService.obj: src/services/MessageService.cpp.obj
+.PHONY : src/services/MessageService.obj
+
+# target to build an object file
+src/services/MessageService.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/MessageService.cpp.obj
+.PHONY : src/services/MessageService.cpp.obj
+
+src/services/MessageService.i: src/services/MessageService.cpp.i
+.PHONY : src/services/MessageService.i
+
+# target to preprocess a source file
+src/services/MessageService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/MessageService.cpp.i
+.PHONY : src/services/MessageService.cpp.i
+
+src/services/MessageService.s: src/services/MessageService.cpp.s
+.PHONY : src/services/MessageService.s
+
+# target to generate assembly for a file
+src/services/MessageService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/MessageService.cpp.s
+.PHONY : src/services/MessageService.cpp.s
+
+src/services/SelectionService.obj: src/services/SelectionService.cpp.obj
+.PHONY : src/services/SelectionService.obj
+
+# target to build an object file
+src/services/SelectionService.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/SelectionService.cpp.obj
+.PHONY : src/services/SelectionService.cpp.obj
+
+src/services/SelectionService.i: src/services/SelectionService.cpp.i
+.PHONY : src/services/SelectionService.i
+
+# target to preprocess a source file
+src/services/SelectionService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/SelectionService.cpp.i
+.PHONY : src/services/SelectionService.cpp.i
+
+src/services/SelectionService.s: src/services/SelectionService.cpp.s
+.PHONY : src/services/SelectionService.s
+
+# target to generate assembly for a file
+src/services/SelectionService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/SelectionService.cpp.s
+.PHONY : src/services/SelectionService.cpp.s
+
+src/services/UIService.obj: src/services/UIService.cpp.obj
+.PHONY : src/services/UIService.obj
+
+# target to build an object file
+src/services/UIService.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/UIService.cpp.obj
+.PHONY : src/services/UIService.cpp.obj
+
+src/services/UIService.i: src/services/UIService.cpp.i
+.PHONY : src/services/UIService.i
+
+# target to preprocess a source file
+src/services/UIService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/UIService.cpp.i
+.PHONY : src/services/UIService.cpp.i
+
+src/services/UIService.s: src/services/UIService.cpp.s
+.PHONY : src/services/UIService.s
+
+# target to generate assembly for a file
+src/services/UIService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/UIService.cpp.s
+.PHONY : src/services/UIService.cpp.s
+
+src/services/ValidationService.obj: src/services/ValidationService.cpp.obj
+.PHONY : src/services/ValidationService.obj
+
+# target to build an object file
+src/services/ValidationService.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/ValidationService.cpp.obj
+.PHONY : src/services/ValidationService.cpp.obj
+
+src/services/ValidationService.i: src/services/ValidationService.cpp.i
+.PHONY : src/services/ValidationService.i
+
+# target to preprocess a source file
+src/services/ValidationService.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/ValidationService.cpp.i
+.PHONY : src/services/ValidationService.cpp.i
+
+src/services/ValidationService.s: src/services/ValidationService.cpp.s
+.PHONY : src/services/ValidationService.s
+
+# target to generate assembly for a file
+src/services/ValidationService.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/services/ValidationService.cpp.s
+.PHONY : src/services/ValidationService.cpp.s
+
+src/views/MenuView.obj: src/views/MenuView.cpp.obj
+.PHONY : src/views/MenuView.obj
+
+# target to build an object file
+src/views/MenuView.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/MenuView.cpp.obj
+.PHONY : src/views/MenuView.cpp.obj
+
+src/views/MenuView.i: src/views/MenuView.cpp.i
+.PHONY : src/views/MenuView.i
+
+# target to preprocess a source file
+src/views/MenuView.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/MenuView.cpp.i
+.PHONY : src/views/MenuView.cpp.i
+
+src/views/MenuView.s: src/views/MenuView.cpp.s
+.PHONY : src/views/MenuView.s
+
+# target to generate assembly for a file
+src/views/MenuView.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/MenuView.cpp.s
+.PHONY : src/views/MenuView.cpp.s
+
+src/views/NetworkView.obj: src/views/NetworkView.cpp.obj
+.PHONY : src/views/NetworkView.obj
+
+# target to build an object file
+src/views/NetworkView.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/NetworkView.cpp.obj
+.PHONY : src/views/NetworkView.cpp.obj
+
+src/views/NetworkView.i: src/views/NetworkView.cpp.i
+.PHONY : src/views/NetworkView.i
+
+# target to preprocess a source file
+src/views/NetworkView.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/NetworkView.cpp.i
+.PHONY : src/views/NetworkView.cpp.i
+
+src/views/NetworkView.s: src/views/NetworkView.cpp.s
+.PHONY : src/views/NetworkView.s
+
+# target to generate assembly for a file
+src/views/NetworkView.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/NetworkView.cpp.s
+.PHONY : src/views/NetworkView.cpp.s
+
+src/views/VehicleView.obj: src/views/VehicleView.cpp.obj
+.PHONY : src/views/VehicleView.obj
+
+# target to build an object file
+src/views/VehicleView.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/VehicleView.cpp.obj
+.PHONY : src/views/VehicleView.cpp.obj
+
+src/views/VehicleView.i: src/views/VehicleView.cpp.i
+.PHONY : src/views/VehicleView.i
+
+# target to preprocess a source file
+src/views/VehicleView.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/VehicleView.cpp.i
+.PHONY : src/views/VehicleView.cpp.i
+
+src/views/VehicleView.s: src/views/VehicleView.cpp.s
+.PHONY : src/views/VehicleView.s
+
+# target to generate assembly for a file
+src/views/VehicleView.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\menu_app.dir\build.make CMakeFiles/menu_app.dir/src/views/VehicleView.cpp.s
+.PHONY : src/views/VehicleView.cpp.s
 
 # Help Target
 help:
@@ -293,12 +533,42 @@ help:
 	@echo ... src/Dijkstra.obj
 	@echo ... src/Dijkstra.i
 	@echo ... src/Dijkstra.s
-	@echo ... src/Graph.obj
-	@echo ... src/Graph.i
-	@echo ... src/Graph.s
-	@echo ... src/HashTable.obj
-	@echo ... src/HashTable.i
-	@echo ... src/HashTable.s
+	@echo ... src/controllers/NetworkController.obj
+	@echo ... src/controllers/NetworkController.i
+	@echo ... src/controllers/NetworkController.s
+	@echo ... src/controllers/VehicleController.obj
+	@echo ... src/controllers/VehicleController.i
+	@echo ... src/controllers/VehicleController.s
+	@echo ... src/models/Graph.obj
+	@echo ... src/models/Graph.i
+	@echo ... src/models/Graph.s
+	@echo ... src/models/HashTable.obj
+	@echo ... src/models/HashTable.i
+	@echo ... src/models/HashTable.s
+	@echo ... src/services/FileService.obj
+	@echo ... src/services/FileService.i
+	@echo ... src/services/FileService.s
+	@echo ... src/services/MessageService.obj
+	@echo ... src/services/MessageService.i
+	@echo ... src/services/MessageService.s
+	@echo ... src/services/SelectionService.obj
+	@echo ... src/services/SelectionService.i
+	@echo ... src/services/SelectionService.s
+	@echo ... src/services/UIService.obj
+	@echo ... src/services/UIService.i
+	@echo ... src/services/UIService.s
+	@echo ... src/services/ValidationService.obj
+	@echo ... src/services/ValidationService.i
+	@echo ... src/services/ValidationService.s
+	@echo ... src/views/MenuView.obj
+	@echo ... src/views/MenuView.i
+	@echo ... src/views/MenuView.s
+	@echo ... src/views/NetworkView.obj
+	@echo ... src/views/NetworkView.i
+	@echo ... src/views/NetworkView.s
+	@echo ... src/views/VehicleView.obj
+	@echo ... src/views/VehicleView.i
+	@echo ... src/views/VehicleView.s
 .PHONY : help
 
 

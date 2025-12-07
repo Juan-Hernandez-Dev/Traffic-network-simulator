@@ -4,25 +4,10 @@
 #include <string>
 #include <fstream>
 #include <iostream>
+#include "Node.h"
+#include "Edge.h"
 
 const int MAX_NODES = 50;
-
-struct Edge {
-    int destination;
-    double weight;
-    Edge* next;
-
-    Edge(int dest, double w) : destination(dest), weight(w), next(nullptr) {}
-};
-
-struct Node {
-    int id;
-    std::string name;
-    Edge* adjacencyList;
-    bool active;
-
-    Node() : id(-1), name(""), adjacencyList(nullptr), active(false) {}
-};
 
 class Graph {
 private:
@@ -31,7 +16,6 @@ private:
     int nextId;
     std::string currentFile;  // Track the currently loaded file
 
-    int findNodeIndex(int id);
     void clearEdges(int nodeIndex);
     void updateNextId();
     void autoSave();  // Auto-save to current file
@@ -64,6 +48,8 @@ public:
     std::string getCurrentFile() const { return currentFile; }
     const Node* getNodes() const { return nodes; }
     int getMaxNodes() const { return MAX_NODES; }
+    int findNodeIndex(int id) const;  // Find array index for a node ID
+    int getConnectionCount(int nodeId) const;  // Count edges for a node
 };
 
 #endif

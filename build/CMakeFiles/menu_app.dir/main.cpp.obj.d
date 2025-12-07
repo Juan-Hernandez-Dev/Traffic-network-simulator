@@ -213,20 +213,26 @@ CMakeFiles/menu_app.dir/main.cpp.obj: \
  C:/mingw64/x86_64-w64-mingw32/include/conio.h \
  C:/mingw64/x86_64-w64-mingw32/include/sec_api/conio_s.h \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h \
- C:\Users\juanh\Dev\Projects\YoVoy2\utils/fileUtils.h \
- C:/mingw64/include/c++/15.1.0/algorithm \
- C:/mingw64/include/c++/15.1.0/bits/stl_algo.h \
- C:/mingw64/include/c++/15.1.0/bits/algorithmfwd.h \
- C:/mingw64/include/c++/15.1.0/bits/stl_heap.h \
- C:/mingw64/include/c++/15.1.0/bits/uniform_int_dist.h \
- C:/mingw64/include/c++/15.1.0/bits/ranges_algo.h \
- C:/mingw64/include/c++/15.1.0/pstl/glue_algorithm_defs.h \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/inputUtils.h \
  C:/mingw64/include/c++/15.1.0/limits \
  C:/mingw64/include/c++/15.1.0/optional \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/tableUtils.h \
  C:\Users\juanh\Dev\Projects\YoVoy2\utils/colors.h \
- C:/Users/juanh/Dev/Projects/YoVoy2/src/Graph.h \
- C:/Users/juanh/Dev/Projects/YoVoy2/src/HashTable.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/Graph.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/Node.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/Edge.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/HashTable.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/Vehicle.h \
  C:/Users/juanh/Dev/Projects/YoVoy2/src/Algorithms.h \
- C:/Users/juanh/Dev/Projects/YoVoy2/src/Graph.h
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/models/Graph.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/views/MenuView.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/views/MenuItem.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/utils/colors.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/views/MenuItem.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/controllers/NetworkController.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/controllers/BaseController.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/controllers/VehicleController.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/services/SelectionService.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/services/MessageService.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/services/FileService.h \
+ C:/Users/juanh/Dev/Projects/YoVoy2/src/services/UIService.h

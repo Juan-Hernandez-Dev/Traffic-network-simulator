@@ -1,5 +1,6 @@
 #include "HashTable.h"
 #include "utils/colors.h"
+#include "views/VehicleView.h"
 #include <iomanip>
 #include <sstream>
 
@@ -261,29 +262,8 @@ void HashTable::clearTable() {
 }
 
 void HashTable::showAllVehicles() {
-    if (vehicleCount == 0) {
-        std::cout << "No vehicles registered!\n";
-        return;
-    }
-
-    std::cout << "\n" << BOLD << "Registered vehicles" << RESET << "\n";
-    std::cout << std::setw(5) << "ID" << " | "
-              << std::setw(12) << "Plate" << " | "
-              << std::setw(15) << "Type" << " | "
-              << std::setw(8) << "Origin" << " | "
-              << std::setw(8) << "Dest" << "\n";
-    std::cout << std::string(65, '-') << "\n";
-
-    for (int i = 0; i < HASH_SIZE; i++) {
-        if (table[i].active) {
-            std::cout << std::setw(5) << table[i].id << " | "
-                      << std::setw(12) << table[i].plate << " | "
-                      << std::setw(15) << table[i].type << " | "
-                      << std::setw(8) << table[i].currentNodeId << " | "
-                      << std::setw(8) << table[i].destinationNodeId << "\n";
-        }
-    }
-    std::cout << "\n";
+    VehicleView view;
+    view.showAllVehicles(*this);
 }
 
 void HashTable::showHashInfo() {
@@ -458,3 +438,4 @@ void HashTable::showMovementHistory() {
     file.close();
     std::cout << "\n";
 }
+

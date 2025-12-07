@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include "utils/colors.h"
+#include "views/NetworkView.h"
 #include <iomanip>
 #include <sstream>
 
@@ -17,13 +18,26 @@ Graph::~Graph() {
     }
 }
 
-int Graph::findNodeIndex(int id) {
+int Graph::findNodeIndex(int id) const {
     for (int i = 0; i < MAX_NODES; i++) {
         if (nodes[i].active && nodes[i].id == id) {
             return i;
         }
     }
     return -1;
+}
+
+int Graph::getConnectionCount(int nodeId) const {
+    int index = findNodeIndex(nodeId);
+    if (index == -1) return 0;
+
+    int count = 0;
+    Edge* edge = nodes[index].adjacencyList;
+    while (edge != nullptr) {
+        count++;
+        edge = edge->next;
+    }
+    return count;
 }
 
 void Graph::clearEdges(int nodeIndex) {
@@ -363,80 +377,14 @@ bool Graph::saveToFile(const std::string& filename) {
 }
 
 void Graph::showAdjacencyList() {
-    if (nodeCount == 0) {
-        std::cout << "Network is empty!\n";
-        return;
-    }
-
-    std::cout << "\n" << BOLD << "Adjacency list" << RESET << "\n";
-    for (int i = 0; i < MAX_NODES; i++) {
-        if (nodes[i].active) {
-            std::cout << "[" << nodes[i].id << "] " << nodes[i].name << " -> ";
-
-            Edge* current = nodes[i].adjacencyList;
-            if (current == nullptr) {
-                std::cout << "(no connections)";
-            } else {
-                while (current != nullptr) {
-                    int destIndex = findNodeIndex(current->destination);
-                    std::cout << nodes[destIndex].name << "(" << current->weight << ")";
-                    if (current->next != nullptr) {
-                        std::cout << ", ";
-                    }
-                    current = current->next;
-                }
-            }
-            std::cout << "\n";
-        }
-    }
-    std::cout << "\n";
+    NetworkView view;
+    view.showAdjacencyList(*this);
 }
 
 void Graph::showAdjacencyMatrix() {
-    if (nodeCount == 0) {
-        std::cout << "Network is empty!\n";
-        return;
-    }
-
-    std::cout << "\n" << BOLD << "Adjacency matrix" << RESET << "\n";
-
-    // Header
-    std::cout << std::setw(6) << " ";
-    for (int i = 0; i < MAX_NODES; i++) {
-        if (nodes[i].active) {
-            std::cout << std::setw(6) << nodes[i].id;
-        }
-    }
-    std::cout << "\n";
-
-    // Matrix
-    for (int i = 0; i < MAX_NODES; i++) {
-        if (nodes[i].active) {
-            std::cout << std::setw(6) << nodes[i].id;
-
-            for (int j = 0; j < MAX_NODES; j++) {
-                if (nodes[j].active) {
-                    double weight = 0.0;
-                    Edge* current = nodes[i].adjacencyList;
-                    while (current != nullptr) {
-                        if (current->destination == nodes[j].id) {
-                            weight = current->weight;
-                            break;
-                        }
-                        current = current->next;
-                    }
-
-                    if (weight > 0) {
-                        std::cout << std::setw(6) << std::fixed << std::setprecision(1) << weight;
-                    } else {
-                        std::cout << std::setw(6) << "-";
-                    }
-                }
-            }
-            std::cout << "\n";
-        }
-    }
-    std::cout << "\n";
+    // Delegate to NetworkView
+    NetworkView view;
+    view.showAdjacencyMatrix(*this);
 }
 
 bool Graph::nodeExists(int id) const {

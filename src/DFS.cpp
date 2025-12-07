@@ -39,14 +39,7 @@ TraversalResult dfs(const Graph& graph, int startId, bool verbose) {
         stack.pop();
 
         // Find current node index
-        int currentIndex = -1;
-        for (int i = 0; i < MAX_NODES; i++) {
-            if (nodes[i].active && nodes[i].id == currentId) {
-                currentIndex = i;
-                break;
-            }
-        }
-
+        int currentIndex = graph.findNodeIndex(currentId);
         if (currentIndex == -1 || visited[currentIndex]) continue;
 
         visited[currentIndex] = true;
@@ -110,13 +103,7 @@ TraversalResult dfs(const Graph& graph, int startId, bool verbose) {
             int neighborId = neighbors[i];
 
             // Find neighbor index
-            int neighborIndex = -1;
-            for (int j = 0; j < MAX_NODES; j++) {
-                if (nodes[j].active && nodes[j].id == neighborId) {
-                    neighborIndex = j;
-                    break;
-                }
-            }
+            int neighborIndex = graph.findNodeIndex(neighborId);
 
             if (neighborIndex != -1 && !visited[neighborIndex]) {
                 stack.push(neighborId);

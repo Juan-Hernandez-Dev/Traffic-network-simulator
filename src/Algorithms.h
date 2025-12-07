@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Graph.h"
+#include "models/Graph.h"
 
 // Result structures
 struct PathResult {
